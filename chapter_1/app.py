@@ -7,13 +7,50 @@ from flask import Flask
 app = Flask(__name__)
 
 
+# adding debug flag for error reporting and auto server restart
+app.config["DEBUG"] = True
+
+
 # use the decorative pattern to
 # link the view function a url
 @app.route("/")
 @app.route("/hello")
 # define the view using a function, which returns a string
 def hello_world():
-    return "Hello, World!"
+    return "Hello, World!?!?!?!"
+
+
+@app.route("/test/<search_query>")
+# dynamic routing test
+def search(search_query):
+    return search_query
+
+
+# testing flask converters for value, int:value and float:value
+@app.route("/integer/<int:value>")
+def int_type(value):
+    print(value + 1)
+    return "correct"
+
+
+@app.route("/float/<float:value>")
+def float_type(value):
+    print(value + 1)
+    return "correct"
+
+
+@app.route("/path/<path:value>")
+def path_type(value):
+    print(value)
+    return "correct"
+
+
+@app.route("/name/<name>")
+def index(name):
+    if name.lower() == "tejas":
+        return "Hello, {}".format(name), 200
+    else:
+        return "Not Found", 404
 
 
 # start the development server using the run() method
